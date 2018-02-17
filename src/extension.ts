@@ -2,6 +2,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { Position, Range } from 'vscode';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -14,14 +15,23 @@ export function activate(context: vscode.ExtensionContext) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand('extension.sayHello', () => {
+    let disposable = vscode.commands.registerCommand('selectedText.characterCount', () => {
         // The code you place here will be executed every time your command is executed
+        let selectedText = getSelectedText()
 
         // Display a message box to the user
-        vscode.window.showInformationMessage('Hello World!');
+        vscode.window.showInformationMessage(`Character count: ${selectedText.length}`);
     });
 
     context.subscriptions.push(disposable);
+}
+
+function getSelectedText() {
+    let selection = vscode.window.activeTextEditor.selection
+    
+    return vscode.window.activeTextEditor.document.getText(
+        new Range(selection.start, selection.end)
+    )
 }
 
 // this method is called when your extension is deactivated
