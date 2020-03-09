@@ -17,21 +17,21 @@ export function activate(context: vscode.ExtensionContext) {
     // The commandId parameter must match the command field in package.json
     let disposable = vscode.commands.registerCommand('selectedText.characterCount', () => {
         // The code you place here will be executed every time your command is executed
-        let selectedText = getSelectedText()
+        let selectedTextCount = getSelectedTextCount()
 
         // Display a message box to the user
-        vscode.window.showInformationMessage(`Character count: ${selectedText.length}`);
+        vscode.window.showInformationMessage(`Character count: ${selectedTextCount}`);
     });
 
     context.subscriptions.push(disposable);
 }
 
-function getSelectedText() {
+function getSelectedTextCount() {
     let selection = vscode.window.activeTextEditor.selection
     
     return vscode.window.activeTextEditor.document.getText(
         new Range(selection.start, selection.end)
-    )
+    ).length
 }
 
 // this method is called when your extension is deactivated
